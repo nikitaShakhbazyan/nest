@@ -16,10 +16,9 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  register(
-    @Body('username') username: string,
-    @Body('password') password: string,
-  ) {
+  async register(@Body() body: { username: string; password: string }) {
+    console.log('Body received:', body);
+    const { username, password } = body;
     return this.authService.registration(username, password);
   }
   @Post('login')
@@ -36,7 +35,7 @@ export class AuthController {
   }
   @UseGuards(JwtAuthGuard)
   @Put('refresh')
-  async refreshName(@Req() req: Request, @Body('username') username: string) {
+  refreshName(@Req() req: Request, @Body('username') username: string) {
     const user = req.user as { userId: number; username: string };
     return this.authService.newUsername(user.userId, username);
   }

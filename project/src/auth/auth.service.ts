@@ -17,7 +17,7 @@ export class AuthService {
   ) {}
 
   async registration(username: string, password: string) {
-    const existingUser = this.userService.findUsername(username);
+    const existingUser = await this.userService.findUsername(username);
     if (existingUser) {
       throw new UnauthorizedException(
         'There s already is a user with such username',
@@ -27,11 +27,11 @@ export class AuthService {
     return { message: 'User successfully registered', user };
   }
   async login(username: string, password: string) {
-    const user = this.userService.findUsername(username);
+    const user = await this.userService.findUsername(username);
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    const match = await bcrypt.compare(password, user.hashedPassword);
+    const match = await bcrypt.compare(password, user.password);
     if (!match) {
       throw new UnauthorizedException('Invalid credentials');
     }
@@ -39,8 +39,8 @@ export class AuthService {
     const token = this.jwtService.sign(payload);
     return { message: 'Login successful', access_token: token, user: username };
   }
-  newUsername(userId: number, newUsername: string) {
-    const update = this.userService.updateUsername(userId, newUsername);
+  async newUsername(userId: number, newUsername: string) {
+    const update = await this.userService.updateUsername(userId, newUsername);
     this.logger.log(`Username updated for user ID: ${userId}`);
     this.logger.log(`new username ${newUsername}`);
 
