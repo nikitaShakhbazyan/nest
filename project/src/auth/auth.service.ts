@@ -24,7 +24,11 @@ export class AuthService {
       );
     }
     const user = await this.userService.createUser(username, password);
-    return { message: 'User successfully registered', user };
+    return {
+      message: 'User successfully registered',
+      user_name: user.username,
+      user_id: user.id,
+    };
   }
   async login(username: string, password: string) {
     const user = await this.userService.findUsername(username);
