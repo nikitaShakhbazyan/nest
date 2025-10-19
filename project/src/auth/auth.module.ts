@@ -4,16 +4,17 @@ import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { AuthController } from './auth.controller';
 import { UsersModule } from 'src/users/users.module';
+import { LoggerService } from 'src/logger/logger.service';
 
 @Module({
   imports: [
     JwtModule.register({
-      secret: 'yourSecretKey',
-      signOptions: { expiresIn: '60m' },
+      secret: 'defaultSecretKey',
+      signOptions: { expiresIn: '1m' },
     }),
     UsersModule,
   ],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, LoggerService],
   controllers: [AuthController],
 })
 export class AuthModule {}

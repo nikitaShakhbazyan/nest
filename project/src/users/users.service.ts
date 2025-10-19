@@ -24,4 +24,10 @@ export class UsersService {
   findById(id: number) {
     return this.users.find((user) => user.id === id);
   }
+  updateUsername(userId: number, newUsername: string) {
+    const user = this.findById(userId);
+    if (user) {
+      user.username = newUsername;
+    }
+  }
 }
