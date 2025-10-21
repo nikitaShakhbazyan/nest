@@ -53,4 +53,7 @@ export class AuthService {
   async verify(token: string): Promise<JwtPayload> {
     return this.jwtService.verifyAsync(token);
   }
+  async getAllUsers() {
+    return this.userService.getAllUsers();
+  }
 }

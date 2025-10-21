@@ -39,4 +39,9 @@ export class AuthController {
     const user = req.user as { userId: number; username: string };
     return this.authService.newUsername(user.userId, username);
   }
+  @UseGuards(JwtAuthGuard)
+  @Get('all-users')
+  getAllUsers() {
+    return this.authService.getAllUsers();
+  }
 }

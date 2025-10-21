@@ -32,4 +32,11 @@ export class UsersService {
     });
     return update;
   }
+  async getAllUsers() {
+    const users = this.prisma.user.findMany();
+    return (await users).map((user) => ({
+      id: user.id,
+      username: user.username,
+    }));
+  }
 }
