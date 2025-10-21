@@ -13,7 +13,7 @@ export class PostController {
     const post = await this.postService.createPost(title, content, authorId);
     return { message: 'Post created successfully', post };
   }
-//   @UseGuards(JwtAuthGuard)
+  //   @UseGuards(JwtAuthGuard)
   @Get('all')
   async getAllPosts() {
     const posts = await this.postService.getAllPosts();

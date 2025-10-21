@@ -1,4 +1,4 @@
-import { Injectable, UseGuards } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Post } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma-client';
 
@@ -24,7 +24,7 @@ export class PostService {
   }
   async getPostById(id: number): Promise<Post | null> {
     return this.prisma.post.findUnique({
-      where: { id: id},
+      where: { id: id },
     });
   }
 }
