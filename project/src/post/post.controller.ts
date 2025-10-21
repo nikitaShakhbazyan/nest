@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { PostService } from './post.service';
 import { JwtAuthGuard } from 'src/auth/jwt.gurad';
+import type { Request } from 'express';
 @Controller('posts')
 export class PostController {
   constructor(private postService: PostService) {}
@@ -8,9 +9,16 @@ export class PostController {
   @Post('create')
   async createPost(
     @Body() body: { title: string; content: string; authorId: number },
+    @Req() req: Request,
   ) {
-    const { title, content, authorId } = body;
-    const post = await this.postService.createPost(title, content, authorId);
+    const authorId = (req.user as any).userId;
+    const numericAuthorId = Number(authorId);
+    const { title, content } = body;
+    const post = await this.postService.createPost(
+      title,
+      content,
+      numericAuthorId,
+    );
     return { message: 'Post created successfully', post };
   }
   //   @UseGuards(JwtAuthGuard)

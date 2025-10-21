@@ -14,7 +14,11 @@ export class PostService {
       data: {
         title,
         content,
-        authorId,
+        author: {
+          connect: {
+            id: authorId,
+          },
+        },
       },
     });
     return post;
